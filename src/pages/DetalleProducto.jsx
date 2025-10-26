@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 function DetalleProducto({ agregarAlCarrito }) {
-  const { id } = useParams(); // obtiene el id de la URL
+  const { id } = useParams();
   const [producto, setProducto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,7 +27,7 @@ function DetalleProducto({ agregarAlCarrito }) {
   if (error) return <p style={{ padding: "20px" }}>Error: {error}</p>;
 
   return (
-    <div style={{ display: "flex", gap: "20px", padding: "20px" }}>
+    <div className="detalle-container">
       <img
         src={producto.image}
         alt={producto.title}

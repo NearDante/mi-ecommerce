@@ -2,9 +2,10 @@ import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Productos from "./pages/Productos";
-import DetalleProducto from "./components/DetalleProducto";
+import DetalleProducto from "./pages/DetalleProducto";
 import Login from "./pages/Login";
 import CarritoSidebar from "./components/CarritoSidebar";
+import PageWrapper from "./components/PageWrapper";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -28,34 +29,44 @@ function App() {
     setCarrito((prev) => prev.filter((p) => p.id !== id));
   };
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setCarrito([]);
+    setCarritoAbierto(false);
+  };
+
+  const toggleCarrito = () => {
+    if (!isLoggedIn) {
+      alert("Debes iniciar sesión para ver el carrito");
+      return;
+    }
+    setCarritoAbierto((prev) => !prev);
+  };
+
   return (
     <Router>
-      <Navbar
+    <Navbar
+      carrito={carrito}
+      isLoggedIn={isLoggedIn}
+      onLogout={handleLogout}
+      toggleCarrito={toggleCarrito}
+    />
+
+    <Routes>
+      <Route path="/" element={<PageWrapper><Productos agregarAlCarrito={agregarAlCarrito} /></PageWrapper>} />
+      <Route path="/producto/:id" element={<PageWrapper><DetalleProducto agregarAlCarrito={agregarAlCarrito} /></PageWrapper>} />
+      <Route path="/login" element={<PageWrapper><Login setIsLoggedIn={setIsLoggedIn} /></PageWrapper>} />
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
+
+    {carritoAbierto && (
+      <CarritoSidebar
         carrito={carrito}
-        isLoggedIn={isLoggedIn}
-        setIsLoggedIn={setIsLoggedIn}
-        abrirCarrito={() => setCarritoAbierto(true)}
+        eliminarDelCarrito={eliminarDelCarrito}
+        cerrar={() => setCarritoAbierto(false)}
       />
-
-      <Routes>
-        <Route path="/" element={<Productos agregarAlCarrito={agregarAlCarrito} />} />
-        <Route
-          path="/producto/:id"
-          element={<DetalleProducto agregarAlCarrito={agregarAlCarrito} />}
-        />
-        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-
-      {/* Sidebar flotante */}
-      {carritoAbierto && (
-        <CarritoSidebar
-          carrito={carrito}
-          eliminarDelCarrito={eliminarDelCarrito}
-          cerrar={() => setCarritoAbierto(false)}
-        />
-      )}
-    </Router>
+    )}
+  </Router>
   );
 }
 

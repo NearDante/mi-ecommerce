@@ -1,7 +1,7 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0;
   text-align: center;
 }
 
@@ -39,4 +39,44 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.detalle-container {
+  display: flex;
+  gap: 20px;
+  max-width: 800px;
+  width: 100%;
+}
+
+.page {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.page-inner {
+  max-width: 800px;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+
+
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background: white;
 }

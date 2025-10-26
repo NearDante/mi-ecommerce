@@ -1,21 +1,28 @@
 import { Link } from "react-router-dom";
 
-function Navbar({ carrito, isLoggedIn, setIsLoggedIn, abrirCarrito }) {
+function Navbar({ carrito, isLoggedIn, onLogout, toggleCarrito }) {
   const totalItems = carrito.reduce((sum, item) => sum + item.cantidad, 0);
-  const handleLogout = () => setIsLoggedIn(false);
 
   return (
-    <nav style={{ display: "flex", gap: "20px" }}>
-      <Link to="/">Productos</Link>
-      <button onClick={abrirCarrito}>
-        Carrito ({totalItems})
-      </button>
-      {isLoggedIn ? (
-        <button onClick={handleLogout}>Logout</button>
-      ) : (
-        <Link to="/login">Login</Link>
-      )}
-    </nav>
+    <nav style={{
+  display: "flex",
+  alignItems: "center",
+  padding: "10px 20px",
+  background: "#f4f4f4",
+  gap: "20px" // espacio entre todos los elementos
+}}>
+  <Link to="/">Productos</Link>
+  <button onClick={toggleCarrito}>
+    🛒 Carrito ({totalItems})
+  </button>
+
+  {isLoggedIn ? (
+    <button onClick={onLogout}>Cerrar sesión</button>
+  ) : (
+    <Link to="/login">Iniciar sesión</Link>
+  )}
+</nav>
+
   );
 }
 

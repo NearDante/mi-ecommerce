@@ -9,7 +9,7 @@ function Login({ setIsLoggedIn }) {
     e.preventDefault();
     if (usuario.trim() !== "") {
       setIsLoggedIn(true);
-      navigate("/"); // redirige al inicio
+      navigate("/");
     }
   };
 
